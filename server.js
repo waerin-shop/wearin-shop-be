@@ -16,6 +16,8 @@ const Cart = require('./models/Cart');
 const Category = require('./models/Category');
 const ProductType = require('./models/ProductType');
 const Material = require('./models/Material');
+const Order = require('./models/Order');
+const Address = require('./models/Address');
 
 const auth = require('./middleware/auth');
 
@@ -308,6 +310,168 @@ app.delete('/api/cart/:id', auth, async (req, res) => {
         if (!result) return res.status(404).json({ message: 'Item tidak ditemukan' });
         res.json({ message: 'Item dihapus dari keranjang' });
     } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+// POST - PROSES CHECKOUT
+app.post('/api/orders', auth, async (req, res) => {
+    try {
+        const { 
+            items, 
+            shipping_address, 
+            payment_method, 
+            summary 
+        } = req.body;
+
+        if (!items || items.length === 0) {
+            return res.status(400).json({ message: 'Tidak ada barang yang di-checkout' });
+        }
+
+        const newOrder = new Order({
+            user_id: req.user.id,
+            items: items, // Frontend mengirim array items lengkap (snapshot)
+            shipping_address,
+            payment_method,
+            summary,
+            payment_status: 'paid',
+            order_status: 'processing'
+        });
+
+        await newOrder.save();
+
+        // Hapus item di keranjang user yang statusnya 'selected: true'
+        await Cart.deleteMany({ user_id: req.user.id, selected: true });
+
+        // (Opsional) Kurangi Stok Produk Asli di sini
+
+        res.status(201).json({ 
+            message: 'Order berhasil dibuat!', 
+            order_id: newOrder._id 
+        });
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// GET - RIWAYAT PESANAN USER
+app.get('/api/orders', auth, async (req, res) => {
+    try {
+        const orders = await Order.find({ user_id: req.user.id }).sort({ created_at: -1 });
+        res.json(orders);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// ALAMAT
+app.get('/api/addresses', auth, async (req, res) => {
+    try {
+        const addresses = await Address.find({ user_id: req.user.id })
+            .sort({ is_primary: -1, createdAt: -1 });
+        
+        res.json(addresses);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.post('/api/addresses', auth, async (req, res) => {
+    const { label, name, phone, full_address, is_primary } = req.body;
+
+    try {
+        // Logic Jika user ingin menjadikan ini alamat utama
+        if (is_primary) {
+            await Address.updateMany({ user_id: req.user.id }, { is_primary: false });
+        }
+
+        const count = await Address.countDocuments({ user_id: req.user.id });
+        const shouldBePrimary = count === 0 ? true : is_primary;
+
+        const newAddress = new Address({
+            user_id: req.user.id,
+            label,
+            name,
+            phone,
+            full_address,
+            is_primary: shouldBePrimary
+        });
+
+        await newAddress.save();
+        res.status(201).json(newAddress);
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.put('/api/addresses/:id', auth, async (req, res) => {
+    const { label, name, phone, full_address, is_primary } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(404).json({ message: 'ID Alamat tidak valid' });
+    }
+
+    try {
+        const address = await Address.findOne({ _id: req.params.id, user_id: req.user.id });
+        if (!address) return res.status(404).json({ message: 'Alamat tidak ditemukan' });
+
+        if (is_primary === true) {
+             await Address.updateMany({ user_id: req.user.id }, { is_primary: false });
+        }
+
+        address.label = label || address.label;
+        address.name = name || address.name;
+        address.phone = phone || address.phone;
+        address.full_address = full_address || address.full_address;
+        
+        if (is_primary !== undefined) address.is_primary = is_primary;
+
+        await address.save();
+        res.json(address);
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.delete('/api/addresses/:id', auth, async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(404).json({ message: 'ID Alamat tidak valid' });
+    }
+
+    try {
+        const result = await Address.findOneAndDelete({ _id: req.params.id, user_id: req.user.id });
+        
+        if (!result) return res.status(404).json({ message: 'Alamat tidak ditemukan' });
+        
+        res.json({ message: 'Alamat berhasil dihapus' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// PROFILE
+// GET PROFILE (User Info + Daftar Alamat)
+app.get('/api/profile', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+
+        if (!user) {
+            return res.status(404).json({ message: 'User tidak ditemukan' });
+        }
+
+        const addresses = await Address.find({ user_id: req.user.id })
+            .sort({ is_primary: -1, createdAt: -1 });
+
+        res.json({
+            _id: user._id,
+            username: user.username,
+            addresses: addresses
+        });
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
 // MASTER
