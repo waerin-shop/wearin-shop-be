@@ -1,0 +1,917 @@
+{
+  "info": {
+    "_postman_id": "0907375c-7f7f-4e24-bd3f-ed300910b217",
+    "name": "Toko Online LAB",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "14971721",
+    "_collection_link": "https://go.postman.co/collection/14971721-0907375c-7f7f-4e24-bd3f-ed300910b217?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "MASTER",
+      "item": [
+        {
+          "name": "Master Kategori",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDM3OTY5NiwiZXhwIjoxNzcwMzgzMjk2fQ.wXC2KD230kvH9oYZMFyTfZbbq0KJnGN1iOVugLi6GaA",
+                "description": "Token yang didapatkan saat login",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/master/categories",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "master",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Master Tipe Produk",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDM3OTY5NiwiZXhwIjoxNzcwMzgzMjk2fQ.wXC2KD230kvH9oYZMFyTfZbbq0KJnGN1iOVugLi6GaA",
+                "description": "Token yang didapatkan saat login",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/master/types",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "master",
+                "types"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Master Bahan Produk",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDM3OTY5NiwiZXhwIjoxNzcwMzgzMjk2fQ.wXC2KD230kvH9oYZMFyTfZbbq0KJnGN1iOVugLi6GaA",
+                "description": "Token yang didapatkan saat login",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/master/materials",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "master",
+                "materials"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Produk",
+      "item": [
+        {
+          "name": "Daftar Produk",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail Produk",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products/74e3a34a-f2a9-4763-9acf-851a81b4f967",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "products",
+                "74e3a34a-f2a9-4763-9acf-851a81b4f967"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tambah Produk",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQyODgzNSwiZXhwIjoxNzcwNDMyNDM1fQ.4W5YDGf7IJg0yIVHqRQ9rkgJw1J2c_-M9O5udnmHmZ8",
+                "description": "Token yang didapatkan saat login",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Baju Gamis",
+                  "type": "text",
+                  "uuid": "2219689c-953c-47b8-8dc4-11c53b77b3ef"
+                },
+                {
+                  "key": "price",
+                  "value": "2000000",
+                  "type": "text",
+                  "uuid": "2f4be221-26a3-4233-94a4-cc71ae07886f"
+                },
+                {
+                  "key": "stock",
+                  "value": "18",
+                  "type": "text",
+                  "uuid": "1538a043-d78b-46fa-b645-ed73c126028a"
+                },
+                {
+                  "key": "description",
+                  "value": "Baju Gamis",
+                  "type": "text",
+                  "uuid": "6c388fbe-95a7-4273-aa2b-df15f99a6930"
+                },
+                {
+                  "key": "buyable",
+                  "value": "true",
+                  "description": "OPSIONAL, boleh default true",
+                  "type": "text",
+                  "uuid": "ec486b02-580a-498c-87ab-97e29e0e4788"
+                },
+                {
+                  "key": "image",
+                  "description": "gambar produk",
+                  "type": "file",
+                  "uuid": "c7cc71bf-3104-4b7c-b18a-17527918ab3e",
+                  "src": "/C:/Users/LENOVO/Downloads/mahavir-shah-gtZxq2Rpa_Y-unsplash.jpg"
+                },
+                {
+                  "key": "category_id",
+                  "value": "69869830bb6408d697b9e868",
+                  "description": "Kategori Produk",
+                  "type": "text",
+                  "uuid": "003f4f82-5bed-4fb2-a9db-afcb6cb33029"
+                },
+                {
+                  "key": "type_id",
+                  "value": "69869830bb6408d697b9e86c",
+                  "description": "Tipe Produk",
+                  "type": "text",
+                  "uuid": "de7d3b57-e7d9-4e21-ae5c-0df7e16070c8"
+                },
+                {
+                  "key": "material_id",
+                  "value": "69869830bb6408d697b9e870",
+                  "description": "Bahan Produk",
+                  "type": "text",
+                  "uuid": "0ee1021b-8a87-4161-8173-47696da1d80e"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah Produk",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDM3OTY5NiwiZXhwIjoxNzcwMzgzMjk2fQ.wXC2KD230kvH9oYZMFyTfZbbq0KJnGN1iOVugLi6GaA",
+                "description": "Token yang didapatkan saat login",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Baju Gamis Ubah",
+                  "type": "text",
+                  "uuid": "2219689c-953c-47b8-8dc4-11c53b77b3ef"
+                },
+                {
+                  "key": "price",
+                  "value": "2000000",
+                  "type": "text",
+                  "uuid": "2f4be221-26a3-4233-94a4-cc71ae07886f"
+                },
+                {
+                  "key": "stock",
+                  "value": "18",
+                  "type": "text",
+                  "uuid": "1538a043-d78b-46fa-b645-ed73c126028a"
+                },
+                {
+                  "key": "description",
+                  "value": "Baju Gamis diubah",
+                  "type": "text",
+                  "uuid": "6c388fbe-95a7-4273-aa2b-df15f99a6930"
+                },
+                {
+                  "key": "buyable",
+                  "value": "true",
+                  "type": "text",
+                  "description": "OPSIONAL, boleh default true",
+                  "uuid": "ec486b02-580a-498c-87ab-97e29e0e4788"
+                },
+                {
+                  "key": "category_id",
+                  "value": "69869830bb6408d697b9e868",
+                  "type": "text",
+                  "description": "gambar produk"
+                },
+                {
+                  "key": "type_id",
+                  "value": "69869830bb6408d697b9e86c",
+                  "type": "text"
+                },
+                {
+                  "key": "material_id",
+                  "value": "69869830bb6408d697b9e870",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "description": "gambar produk",
+                  "type": "file",
+                  "uuid": "c7cc71bf-3104-4b7c-b18a-17527918ab3e",
+                  "src": "/C:/Users/LENOVO/Downloads/andrey-matveev-7eZeXqKAywU-unsplash.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products/698699babb6408d697b9e87e",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "products",
+                "698699babb6408d697b9e87e"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDM3OTY5NiwiZXhwIjoxNzcwMzgzMjk2fQ.wXC2KD230kvH9oYZMFyTfZbbq0KJnGN1iOVugLi6GaA",
+                "description": "Token yang didapatkan saat login",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products/698699babb6408d697b9e87e",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "products",
+                "698699babb6408d697b9e87e"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Keranjang Belanja",
+      "item": [
+        {
+          "name": "List Keranjang Belanja",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQzMjY4MSwiZXhwIjoxNzcwNDM2MjgxfQ.y5TA1U343sJEk_bMDGQLdrPSfXZXYIMJhspJMSalYVI",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/cart",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tambah List Keranjang Belanja",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQzMjY4MSwiZXhwIjoxNzcwNDM2MjgxfQ.y5TA1U343sJEk_bMDGQLdrPSfXZXYIMJhspJMSalYVI",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "product_id",
+                  "value": "6986a30b39286f663e3ab4f0",
+                  "type": "text",
+                  "uuid": "1176a8dc-eb97-4a9e-894c-425b9b8c65ab"
+                },
+                {
+                  "key": "quantity",
+                  "value": "12",
+                  "type": "text",
+                  "uuid": "1a4263b4-6edd-48df-9cf4-2def72492483"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/cart",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah List Keranjang Belanja",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQyODgzNSwiZXhwIjoxNzcwNDMyNDM1fQ.4W5YDGf7IJg0yIVHqRQ9rkgJw1J2c_-M9O5udnmHmZ8",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "quantity",
+                  "value": "10",
+                  "type": "text",
+                  "uuid": "1a4263b4-6edd-48df-9cf4-2def72492483"
+                },
+                {
+                  "key": "selected",
+                  "value": "false",
+                  "description": "true/false",
+                  "type": "text",
+                  "uuid": "e75c0000-e752-453a-bd59-37edb3de1fff"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/cart/69869ac4bb6408d697b9e88c",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "cart",
+                "69869ac4bb6408d697b9e88c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus List Keranjang Belanja",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQzMjY4MSwiZXhwIjoxNzcwNDM2MjgxfQ.y5TA1U343sJEk_bMDGQLdrPSfXZXYIMJhspJMSalYVI",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/cart/6986a8ea39286f663e3ab50c",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "cart",
+                "6986a8ea39286f663e3ab50c"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Order/Pesanan",
+      "item": [
+        {
+          "name": "Riwayat Pesanan",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQyODgzNSwiZXhwIjoxNzcwNDMyNDM1fQ.4W5YDGf7IJg0yIVHqRQ9rkgJw1J2c_-M9O5udnmHmZ8",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Proses Checkout (Bayar Sekarang)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQyODgzNSwiZXhwIjoxNzcwNDMyNDM1fQ.4W5YDGf7IJg0yIVHqRQ9rkgJw1J2c_-M9O5udnmHmZ8",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"items\": [\r\n    {\r\n        \"product_id\": \"698699babb6408d697b9e87e\", \r\n        \"name\": \"Baju Gamis\",\r\n        \"price\": 2000000,\r\n        \"quantity\": 1,\r\n        \"image\": \"https://res.cloudinary.com/dd8h4zmwt/image/upload/toko-online-uploads/tanktop-img\"\r\n    },\r\n    {\r\n       \"product_id\": \"69869830bb6408d697b9e874\",\r\n        \"name\": \"Tank Top Basic\",\r\n        \"price\": 129990,\r\n        \"quantity\": 1,\r\n        \"image\": \"https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=500&q=60\"\r\n    }\r\n  ],\r\n  \"shipping_address\": {\r\n    \"name\": \"Raka\",\r\n    \"phone\": \"+62 873-0986-5721\",\r\n    \"full_address\": \"Jl. Mentari No. 7a, Mekarsari, Kec. Sukamaju, Kota Surabaya, Jawa Timur 67521, Indonesia\"\r\n  },\r\n  \"shipping_method\": \"Reguler\",\r\n  \"payment_method\": \"Debit/Credit Card\",\r\n  \"summary\": {\r\n    \"subtotal\": 162500,\r\n    \"shipping_cost\": 20000,\r\n    \"service_fee\": 1000,\r\n    \"discount\": 52510,\r\n    \"grand_total\": 130990\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Profil User (Alamat, dll.)",
+      "item": [
+        {
+          "name": "DAFTAR ALAMAT",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQzMjY4MSwiZXhwIjoxNzcwNDM2MjgxfQ.y5TA1U343sJEk_bMDGQLdrPSfXZXYIMJhspJMSalYVI",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/addresses",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "addresses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Profile User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQzMjY4MSwiZXhwIjoxNzcwNDM2MjgxfQ.y5TA1U343sJEk_bMDGQLdrPSfXZXYIMJhspJMSalYVI",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/profile",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TAMBAH ALAMAT",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQzMjY4MSwiZXhwIjoxNzcwNDM2MjgxfQ.y5TA1U343sJEk_bMDGQLdrPSfXZXYIMJhspJMSalYVI",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "label",
+                  "value": "Rumah",
+                  "type": "text",
+                  "uuid": "293259e1-cbfa-475c-9559-21ca7eec2537"
+                },
+                {
+                  "key": "name",
+                  "value": "Raka",
+                  "description": "username",
+                  "type": "text",
+                  "uuid": "0d947b32-8aa8-46cf-b500-12d7de596ab1"
+                },
+                {
+                  "key": "phone",
+                  "value": "088212690713",
+                  "description": "NO HP",
+                  "type": "text",
+                  "uuid": "d4884fbd-8349-43d4-b2c9-7072d608b93e"
+                },
+                {
+                  "key": "full_address",
+                  "value": "Bogor, Jawa Barat",
+                  "type": "text",
+                  "uuid": "32056853-276a-4827-af48-4e3bb14735c3"
+                },
+                {
+                  "key": "is_primary",
+                  "value": "true",
+                  "description": "alamat utama (true/false)",
+                  "type": "text",
+                  "uuid": "8a97752b-b81c-4046-89d4-95398b059bfc"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/addresses",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "addresses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UBAH ALAMAT",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQzMjY4MSwiZXhwIjoxNzcwNDM2MjgxfQ.y5TA1U343sJEk_bMDGQLdrPSfXZXYIMJhspJMSalYVI",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "label",
+                  "value": "Apartemen",
+                  "type": "text",
+                  "uuid": "293259e1-cbfa-475c-9559-21ca7eec2537"
+                },
+                {
+                  "key": "name",
+                  "value": "Raka",
+                  "description": "username",
+                  "type": "text",
+                  "uuid": "0d947b32-8aa8-46cf-b500-12d7de596ab1"
+                },
+                {
+                  "key": "phone",
+                  "value": "088212690713",
+                  "description": "NO HP",
+                  "type": "text",
+                  "uuid": "d4884fbd-8349-43d4-b2c9-7072d608b93e"
+                },
+                {
+                  "key": "full_address",
+                  "value": "Bogor, Jawa Barat",
+                  "type": "text",
+                  "uuid": "32056853-276a-4827-af48-4e3bb14735c3"
+                },
+                {
+                  "key": "is_primary",
+                  "value": "true",
+                  "description": "alamat utama (true/false)",
+                  "type": "text",
+                  "uuid": "8a97752b-b81c-4046-89d4-95398b059bfc"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/addresses/6986ab5f27864c0cce04b032",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "addresses",
+                "6986ab5f27864c0cce04b032"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "HAPUS ALAMAT",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzQ0ZDU3Yjg4MTU0ZDFkZTI4ZWVjYiIsImlhdCI6MTc3MDQzMjY4MSwiZXhwIjoxNzcwNDM2MjgxfQ.y5TA1U343sJEk_bMDGQLdrPSfXZXYIMJhspJMSalYVI",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/addresses/6986ab5f27864c0cce04b032",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "addresses",
+                "6986ab5f27864c0cce04b032"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "raka",
+              "type": "text",
+              "uuid": "5e61b4d2-f786-440e-9823-dbb8931972d7"
+            },
+            {
+              "key": "password",
+              "value": "raka",
+              "type": "text",
+              "uuid": "a5f5158c-c17e-43b5-800f-5cc02a351ee1"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "password",
+              "value": "passwordadmin",
+              "type": "text",
+              "uuid": "a5f5158c-c17e-43b5-800f-5cc02a351ee1"
+            },
+            {
+              "key": "username",
+              "value": "admin2",
+              "type": "text",
+              "uuid": "5e61b4d2-f786-440e-9823-dbb8931972d7"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
