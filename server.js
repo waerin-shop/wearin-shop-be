@@ -27,6 +27,7 @@ const PORT = process.env.PORT || 5000;
 // --- KONFIGURASI CORS ---
 const allowedOrigins = [
    "http://localhost:3000",
+   "https://wearin-shop-fe-2eo9.vercel.app",
 ];
 
 app.use(cors({
