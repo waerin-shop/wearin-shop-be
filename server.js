@@ -22,7 +22,7 @@ const Address = require('./models/Address');
 const auth = require('./middleware/auth');
 
 const app = express();
-const PORT = process.env.PORT || 5000; // Menggunakan env PORT jika ada (untuk production)
+const PORT = process.env.PORT || 5000;
 
 // --- KONFIGURASI CORS ---
 const allowedOrigins = [
@@ -73,31 +73,60 @@ mongoose.connect(process.env.MONGO_ATLAS_URI)
         process.exit(1);
     });
 
+// ==========================================
+// AUTH ROUTES
+// ==========================================
 
 app.post('/api/auth/register', async (req, res) => {
     try {
         const { username, password } = req.body;
+
+        if (!username || !password) {
+            return res.status(400).json({ message: 'Username dan Password wajib diisi' });
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({ message: 'Password minimal 6 karakter' });
+        }
+
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
         const newUser = new User({ username, password: hashedPassword });
+        
         await newUser.save();
         res.status(201).json({ message: 'User berhasil dibuat' });
-    } catch (err) { res.status(500).json({ message: err.message }); }
+
+    } catch (err) { 
+        if (err.code === 11000) {
+            return res.status(400).json({ message: 'Username sudah digunakan, silakan pilih yang lain.' });
+        }
+        res.status(500).json({ message: 'Terjadi kesalahan server: ' + err.message }); 
+    }
 });
 
 app.post('/api/auth/login', async (req, res) => {
     try {
         const { username, password } = req.body;
+
+        if (!username || !password) {
+            return res.status(400).json({ message: 'Username dan Password wajib diisi' });
+        }
+
         const user = await User.findOne({ username });
         if (!user) return res.status(400).json({ message: 'User tidak ditemukan' });
+
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: 'Password salah' });
+
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.json({ token, username: user.username });
     } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
-// GET Public
+// ==========================================
+// PRODUCT ROUTES
+// ==========================================
+
 app.get('/api/products', async (req, res) => {
     try {
         const products = await Product.find()
@@ -126,16 +155,20 @@ app.get('/api/products/:id', async (req, res) => {
 app.post('/api/products', auth, upload.single('image'), async (req, res) => {
     const imageFilename = req.file ? req.file.filename : ''; 
     
-    const { category_id, type_id, material_id } = req.body;
+    const { name, price, description, seller_id, seller_name, stock, category_id, type_id, material_id } = req.body;
+
+    if (!name || !price) {
+        return res.status(400).json({ message: 'Nama produk dan harga wajib diisi' });
+    }
 
     const product = new Product({
-        name: req.body.name,
-        price: req.body.price,
-        description: req.body.description,
+        name,
+        price,
+        description,
         image: imageFilename,
-        seller_id: req.body.seller_id || "01",
-        seller_name: req.body.seller_name || "Admin",
-        stock: req.body.stock || 0,
+        seller_id: seller_id || "01",
+        seller_name: seller_name || "Admin",
+        stock: stock || 0,
         buyable: req.body.buyable === 'true' || req.body.buyable === true,
         category_id: category_id || null,
         type_id: type_id || null,
@@ -146,7 +179,10 @@ app.post('/api/products', auth, upload.single('image'), async (req, res) => {
         const newProduct = await product.save();
         res.status(201).json(newProduct);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        if (err.name === 'ValidationError') {
+            return res.status(400).json({ message: 'Data produk tidak valid: ' + err.message });
+        }
+        res.status(500).json({ message: err.message });
     }
 });
 
@@ -165,6 +201,7 @@ app.put('/api/products/:id', auth, upload.single('image'), async (req, res) => {
             updateData.image = req.file.filename;
         }
 
+        // Mapping Foreign Keys
         if (req.body.category_id) updateData.category_id = req.body.category_id;
         if (req.body.type_id) updateData.type_id = req.body.type_id;
         if (req.body.material_id) updateData.material_id = req.body.material_id;
@@ -172,7 +209,7 @@ app.put('/api/products/:id', auth, upload.single('image'), async (req, res) => {
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id, 
             updateData, 
-            { new: true }
+            { new: true, runValidators: true } // runValidators: Pastikan data update valid
         ).populate('category_id type_id material_id');
 
         if (!updatedProduct) return res.status(404).json({ message: 'Produk tidak ditemukan' });
@@ -195,8 +232,10 @@ app.delete('/api/products/:id', auth, async (req, res) => {
     } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
-// Get keranjang belanja
-// GET CART
+// ==========================================
+// CART ROUTES
+// ==========================================
+
 app.get('/api/cart', auth, async (req, res) => {
     try {
         const cartItems = await Cart.find({ user_id: req.user.id })
@@ -224,12 +263,15 @@ app.get('/api/cart', auth, async (req, res) => {
     }
 });
 
-// Tambah Keranjang Belanja
 app.post('/api/cart', auth, async (req, res) => {
     const { product_id, quantity } = req.body; 
 
     if (!mongoose.Types.ObjectId.isValid(product_id)) {
         return res.status(400).json({ message: 'Format ID Produk tidak valid' });
+    }
+
+    if (!quantity || quantity < 1) {
+        return res.status(400).json({ message: 'Jumlah barang minimal 1' });
     }
 
     try {
@@ -264,9 +306,7 @@ app.post('/api/cart', auth, async (req, res) => {
     }
 });
 
-// Ubah Keranjang Belanja
 app.put('/api/cart/:id', auth, async (req, res) => {
-
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(404).json({ message: 'Format ID Keranjang tidak valid' });
     }
@@ -278,9 +318,9 @@ app.put('/api/cart/:id', auth, async (req, res) => {
         if (!cartItem) return res.status(404).json({ message: 'Item keranjang tidak ditemukan' });
 
         if (quantity !== undefined) {
-            // Ambil data produk asli pakai findById
+            if (quantity < 1) return res.status(400).json({ message: "Jumlah minimal 1" });
+
             const product = await Product.findById(cartItem.product_id);
-            
             if (product && quantity > product.stock) {
                 return res.status(400).json({ message: `Maksimal pembelian adalah ${product.stock} item` });
             }
@@ -298,9 +338,7 @@ app.put('/api/cart/:id', auth, async (req, res) => {
     }
 });
 
-// Hapus Keranjang Belanja
 app.delete('/api/cart/:id', auth, async (req, res) => {
-
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(404).json({ message: 'Format ID Keranjang tidak valid' });
     }
@@ -312,23 +350,26 @@ app.delete('/api/cart/:id', auth, async (req, res) => {
     } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
-// POST - PROSES CHECKOUT
+// ==========================================
+// ORDER ROUTES
+// ==========================================
+
 app.post('/api/orders', auth, async (req, res) => {
     try {
-        const { 
-            items, 
-            shipping_address, 
-            payment_method, 
-            summary 
-        } = req.body;
+        const { items, shipping_address, payment_method, summary } = req.body;
 
         if (!items || items.length === 0) {
             return res.status(400).json({ message: 'Tidak ada barang yang di-checkout' });
         }
 
+        // Validasi Alamat
+        if (!shipping_address || !shipping_address.name || !shipping_address.phone || !shipping_address.full_address) {
+            return res.status(400).json({ message: 'Alamat pengiriman harus lengkap' });
+        }
+
         const newOrder = new Order({
             user_id: req.user.id,
-            items: items, // Frontend mengirim array items lengkap (snapshot)
+            items: items, 
             shipping_address,
             payment_method,
             summary,
@@ -338,10 +379,8 @@ app.post('/api/orders', auth, async (req, res) => {
 
         await newOrder.save();
 
-        // Hapus item di keranjang user yang statusnya 'selected: true'
+        // Hapus item selected dari cart
         await Cart.deleteMany({ user_id: req.user.id, selected: true });
-
-        // (Opsional) Kurangi Stok Produk Asli di sini
 
         res.status(201).json({ 
             message: 'Order berhasil dibuat!', 
@@ -353,7 +392,6 @@ app.post('/api/orders', auth, async (req, res) => {
     }
 });
 
-// GET - RIWAYAT PESANAN USER
 app.get('/api/orders', auth, async (req, res) => {
     try {
         const orders = await Order.find({ user_id: req.user.id }).sort({ created_at: -1 });
@@ -363,7 +401,10 @@ app.get('/api/orders', auth, async (req, res) => {
     }
 });
 
-// ALAMAT
+// ==========================================
+// ADDRESS ROUTES
+// ==========================================
+
 app.get('/api/addresses', auth, async (req, res) => {
     try {
         const addresses = await Address.find({ user_id: req.user.id })
@@ -378,8 +419,12 @@ app.get('/api/addresses', auth, async (req, res) => {
 app.post('/api/addresses', auth, async (req, res) => {
     const { label, name, phone, full_address, is_primary } = req.body;
 
+    // 1. Validasi Input
+    if (!name || !phone || !full_address) {
+        return res.status(400).json({ message: 'Nama, Nomor HP, dan Alamat Lengkap wajib diisi' });
+    }
+
     try {
-        // Logic Jika user ingin menjadikan ini alamat utama
         if (is_primary) {
             await Address.updateMany({ user_id: req.user.id }, { is_primary: false });
         }
@@ -389,7 +434,7 @@ app.post('/api/addresses', auth, async (req, res) => {
 
         const newAddress = new Address({
             user_id: req.user.id,
-            label,
+            label: label || 'Rumah',
             name,
             phone,
             full_address,
@@ -405,11 +450,11 @@ app.post('/api/addresses', auth, async (req, res) => {
 });
 
 app.put('/api/addresses/:id', auth, async (req, res) => {
-    const { label, name, phone, full_address, is_primary } = req.body;
-
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(404).json({ message: 'ID Alamat tidak valid' });
     }
+
+    const { label, name, phone, full_address, is_primary } = req.body;
 
     try {
         const address = await Address.findOne({ _id: req.params.id, user_id: req.user.id });
@@ -450,8 +495,10 @@ app.delete('/api/addresses/:id', auth, async (req, res) => {
     }
 });
 
-// PROFILE
-// GET PROFILE (User Info + Daftar Alamat)
+// ==========================================
+// PROFILE & MASTER ROUTES
+// ==========================================
+
 app.get('/api/profile', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
@@ -474,19 +521,21 @@ app.get('/api/profile', auth, async (req, res) => {
     }
 });
 
-// MASTER
 app.get('/api/master/categories', async (req, res) => {
-    const data = await Category.find(); res.json(data);
+    try { const data = await Category.find(); res.json(data); } 
+    catch(err) { res.status(500).json({message: err.message}) }
 });
 app.get('/api/master/types', async (req, res) => {
-    const data = await ProductType.find(); res.json(data);
+    try { const data = await ProductType.find(); res.json(data); }
+    catch(err) { res.status(500).json({message: err.message}) }
 });
 app.get('/api/master/materials', async (req, res) => {
-    const data = await Material.find(); res.json(data);
+    try { const data = await Material.find(); res.json(data); }
+    catch(err) { res.status(500).json({message: err.message}) }
 });
 
 app.get('/', (req, res) => {
-    res.send('Server Toko Online (Non-Serverless)!');
+    res.send('Server Toko Online Berjalan!');
 });
 
 app.listen(PORT, () => {
