@@ -67,7 +67,7 @@ const upload = multer({ storage: storage });
 mongoose.connect(process.env.MONGO_ATLAS_URI)
     .then(async () => {
         console.log("✅ MongoDB Connected (Persistent Mode)");
-        await seedData();
+        // await seedData();
     })
     .catch((err) => {
         console.error("❌ MongoDB Connection Error:", err);
@@ -119,7 +119,7 @@ app.post('/api/auth/login', async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: 'Password salah' });
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
         res.json({ token, username: user.username });
     } catch (err) { res.status(500).json({ message: err.message }); }
 });
